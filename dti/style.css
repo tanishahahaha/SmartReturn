@@ -1,0 +1,112 @@
+body {
+    background: linear-gradient(to bottom, rgb(17,18,66), rgb(144,153,181));
+    height: 100vh;
+}
+nav {
+    padding-top: 35px;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'inder';
+    color: white;
+    font-size: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 25px;
+}
+
+.logo img {
+    height: 28px;
+    margin-right: 10px;
+}
+
+.logo span {
+    font-family:'inder' ;
+    color: rgb(162, 214, 150) ;
+}
+
+/* Navigation links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 70px;
+    font-size: 17px;
+
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: white;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    max-width: 80%;
+    margin-left: 160px;
+    margin-top: 100px;
+    font-family: 'inder';
+}
+
+.text-content h1 {
+    font-size: 60px;
+    line-height: 20px;
+    color: #ffffff;
+    font-family: 'inder',sans-serif;
+    font-weight: 8;
+    -webkit-text-stroke: 1.3px black; /* Border around text (for WebKit browsers) */
+    text-shadow: 2px 2px 4px rgba(33, 33, 33, 0.5); /* Shadow effect */
+    
+}
+.text-content p {
+    font-size: 20px;
+    line-height: 40px;
+    color: #ffffff;
+    margin-top: 10px;
+
+}
+.login-btn {
+    margin-top: 5px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: rgb(0, 0, 0);
+    background:rgb(162, 214, 150);
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+.image-content img {
+    width: 500px;
+    height: auto;
+    margin-left: 200px;
+}
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        text-align: right;
+    }
+.image-content img {
+        width: 120%;
+    }
+}
+.login-btn:hover{
+    color:#ffffff
+}

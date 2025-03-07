@@ -1,0 +1,103 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Full-screen gradient background */
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #0D0D40, #585B8A);
+}
+
+/* Navbar: Logo & text side by side */
+.navbar {
+    position: absolute;
+    top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+}
+
+.brand {
+    font-size: 18px;
+    color: #A2D696; /* Light green color */
+}
+
+/* Sign-in form container */
+.container {
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* Sign-in title */
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 20px;
+}
+
+/* Form container */
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Input field containers (for label + input) */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 280px;
+    margin-bottom: 15px;
+}
+
+
+
+/* Input fields */
+.input-field {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+/* Placeholder color */
+.input-field::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Sign-in button */
+.btn {
+    width: 150px;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #A2D696;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #8BC37A;
+}
