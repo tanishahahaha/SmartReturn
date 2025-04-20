@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inder&family=Jomhuria&display=swap" rel="stylesheet">
+    <title>SIP Calculator</title>
+    <style>
+        body {
+            font-family: 'inder';
+            text-align: center;
+            background: #343761;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+        }
+        input, select, button {
+            width: 90%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        .sip-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sip-container label {
+            margin-right: 10px;
+        }
+        .sip-container select {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>SIP Investment Suggestor</h2>
+        <label for="amount">Monthly Investment (₹):</label>
+        <input type="number" id="amount" placeholder="Enter amount" required>
+        
+        <label for="duration">Investment Duration (years):</label>
+        <input type="number" id="duration" placeholder="Enter years" required>
+        
+        <label for="risk">Risk Appetite:</label>
+        <select id="risk">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="very_high">Very High</option>
+        </select>
+        
+        <label for="goal">Investment Goal:</label>
+        <select id="goal">
+            <option value="wealth_creation">Wealth Creation</option>
+            <option value="retirement">Retirement</option>
+            <option value="education">Education</option>
+            <option value="home">Home Purchase</option>
+        </select>
+        
+        <div class="sip-container">
+            <label for="sip_type">SIP Type:</label>
+            <select id="sip_type">
+                <option value="regular">Regular SIP</option>
+                <option value="step_up">Step-Up SIP</option>
+            </select>
+        </div>
+        
+        <button onclick="calculateSIP()">Calculate</button>
+        
+        <h3>Estimated Returns: ₹<span id="returns">0</span></h3>
+        <h3>Suggested Funds: <span id="suggestions"></span></h3>
+    </div>
+    
+    <script>
+        function calculateSIP() {
+            let amount = parseFloat(document.getElementById('amount').value);
+            let duration = parseInt(document.getElementById('duration').value);
+            let risk = document.getElementById('risk').value;
+            let goal = document.getElementById('goal').value;
+            let sipType = document.getElementById('sip_type').value;
+            
+            if (amount <= 0 || duration <= 0) {
+                alert("Please enter valid values");
+                return;
+            }
+            
+            let rate = risk === "low" ? 7 : risk === "medium" ? 12 : risk === "high" ? 15 : 18;
+            let months = duration * 12;
+            let monthlyRate = rate / 12 / 100;
+            let maturity;
+            
+            if (sipType === "regular") {
+                maturity = (amount * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate)) * (1 + monthlyRate);
+            } else {
+                let stepUpRate = 10 / 100; // Assume 10% step-up per year
+                let stepUpFactor = (Math.pow(1 + stepUpRate, duration) - 1) / stepUpRate;
+                maturity = (amount * stepUpFactor) * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+            }
+            
+            document.getElementById('returns').innerText = maturity.toFixed(2);
+            
+            let suggestions = {
+    low: [
+        "HDFC Short Term Debt Fund", 
+        "ICICI Prudential Savings Fund", 
+        "SBI Magnum Gilt Fund"
+    ],
+    medium: [
+        "Mirae Asset Large Cap Fund", 
+        "Axis Bluechip Fund", 
+        "UTI Flexi Cap Fund"
+    ],
+    high: [
+        "SBI Small Cap Fund", 
+        "Nippon India Growth Fund", 
+        "Motilal Oswal Focused Fund"
+    ],
+    very_high: [
+        "Kotak Emerging Equity Fund", 
+        "Motilal Oswal Midcap Fund", 
+        "Parag Parikh Flexi Cap Fund"
+    ]
+};
+
+// Printing with new lines
+for (let riskLevel in suggestions) {
+    console.log(`${riskLevel.toUpperCase()}:\n${suggestions[riskLevel].join("\n")}\n`);
+}
+
+            
+            let goalBasedFunds = {
+                wealth_creation: "Mirae Asset Large Cap Fund, SBI Small Cap Fund, Parag Parikh Long Term Equity Fund",
+                retirement: "HDFC Retirement Savings Fund, ICICI Prudential Retirement Fund, Tata Retirement Savings Fund",
+                education: "Axis Long Term Equity Fund, UTI Children's Career Fund, Franklin India Bluechip Fund",
+                home: "L&T Emerging Businesses Fund, Tata Large Cap Fund, DSP Housing Opportunities Fund"
+            };
+            
+            document.getElementById('suggestions').innerText = suggestions[risk].join(", ") + ", " + goalBasedFunds[goal];
+        }
+    </script>
+</body>
+</html>

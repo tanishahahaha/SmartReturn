@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Smart Return</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inder&family=Jomhuria&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'inder';
+        }
+        
+        body {
+            background: linear-gradient(to bottom, rgb(17,18,66), rgb(144,153,181));
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .logo {
+            color: #a2d696;
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+        
+        .logo img {
+            margin-right: 10px;
+            width: 50px;
+            height: auto;
+        }
+        
+        .logo span {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .left-panel {
+            background: linear-gradient(to bottom right, #8bc34a, #a5d6a7);
+            flex: 1;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        
+        .left-panel h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .left-panel p {
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .right-panel {
+            background: linear-gradient(to bottom right, #b3e5fc, #81d4fa);
+            flex: 1;
+            padding: 40px 30px;
+        }
+        
+        h2 {
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+        
+        button {
+            background: #8bc34a;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0 auto;
+            display: block;
+            transition: background 0.3s ease;
+        }
+        
+        button:hover {
+            background: #7cb342;
+        }
+        
+        .notification {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            color: white;
+            text-align: center;
+            display: none;
+            transition: opacity 0.3s ease;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .notification.success {
+            background-color: #4caf50;
+        }
+        
+        .notification.error {
+            background-color: #f44336;
+        }
+        
+        .password-strength {
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .password-strength.weak { color: #f44336; }
+        .password-strength.medium { color: #ff9800; }
+        .password-strength.strong { color: #4caf50; }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="logo2.png" alt="Smart Return Logo">
+        <span>Smart Return</span>
+    </div>
+    
+    <div class="notification success" id="success-msg"></div>
+    <div class="notification error" id="error-msg"></div>
+    
+    <div class="card">
+        <div class="left-panel">
+            <h1>WELCOME BACK!</h1>
+            <p>Enter your personal details to use all the features</p>
+            <button onclick="window.location.href='login.html'">Sign In</button>
+        </div>
+        
+        <div class="right-panel">
+            <h2>CREATE ACCOUNT</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <input type="text" id="name" placeholder="Name" required minlength="2" maxlength="50">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required minlength="8">
+                    <div id="password-strength" class="password-strength"></div>
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        const signupForm = document.getElementById('signup-form');
+        const successMsg = document.getElementById('success-msg');
+        const errorMsg = document.getElementById('error-msg');
+        const passwordStrengthElem = document.getElementById('password-strength');
+        
+        // Advanced password strength checker
+        function checkPasswordStrength(password) {
+            const strengthRegexes = [
+                { regex: /.{8,}/, level: 'weak' },
+                { regex: /(?=.*[a-z])(?=.*[A-Z])/, level: 'medium' },
+                { regex: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/, level: 'strong' }
+            ];
+            
+            for (let i = strengthRegexes.length - 1; i >= 0; i--) {
+                if (strengthRegexes[i].regex.test(password)) {
+                    return strengthRegexes[i].level;
+                }
+            }
+            return 'weak';
+        }
+        
+        // Password strength indicator
+        document.getElementById('password').addEventListener('input', function() {
+            const strength = checkPasswordStrength(this.value);
+            passwordStrengthElem.textContent = `Strength: ${strength.charAt(0).toUpperCase() + strength.slice(1)}`;
+            passwordStrengthElem.className = `password-strength ${strength}`;
+        });
+        
+        // Show notification
+        function showNotification(type, message) {
+            const notification = type === 'success' ? successMsg : errorMsg;
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Sanitize input to prevent XSS
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML;
+        }
+        
+        // Signup form submission
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = sanitizeInput(document.getElementById('name').value.trim());
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            
+            // Comprehensive validation
+            if (!name || !email || !password) {
+                showNotification('error', 'All fields are required!');
+                return;
+            }
+            
+            if (name.length < 2 || name.length > 50) {
+                showNotification('error', 'Name must be between 2 and 50 characters!');
+                return;
+            }
+            
+            const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                showNotification('error', 'Invalid email format!');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showNotification('error', 'Password must be at least 8 characters!');
+                return;
+            }
+            
+            // Get users from localStorage or initialize empty array
+            const storedUsers = localStorage.getItem('users');
+            const users = storedUsers ? JSON.parse(storedUsers) : [];
+            
+            // Check if user already exists
+            const userExists = users.some(user => user.email === email);
+            
+            if (userExists) {
+                showNotification('error', 'User with this email already exists!');
+                return;
+            }
+            
+            // Hash password (basic encoding for demo purposes)
+            const hashedPassword = btoa(password);
+            
+            // Save new user
+            users.push({ 
+                name: name, 
+                email: email, 
+                password: hashedPassword 
+            });
+            
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Set current user
+            localStorage.setItem('currentUser', JSON.stringify({
+                name: name,
+                email: email
+            }));
+            
+            showNotification('success', 'Account created successfully! Redirecting...');
+            
+            // Clear form
+            signupForm.reset();
+            
+            // Redirect to page3.html
+            setTimeout(() => {
+                window.location.href = 'page3.html';
+            }, 2000);
+        });
+        
+        // Check if user is already logged in
+        const currentPath = window.location.pathname;
+        if (!currentPath.includes('signup.html')) {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (currentUser) {
+                // Redirect to page3.html if already logged in
+                window.location.href = 'page3.html';
+            }
+        }
+    </script>
+</body>
+</html>

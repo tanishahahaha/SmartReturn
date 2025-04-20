@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investipedia - Learn About Investments</title>
+    <style>
+        :root {
+            --primary: #343761;
+            --primary-light: #e8f0fe;
+            --primary-dark: #343761;
+            --secondary: #e1f5fe;
+            --text-dark: #333;
+            --text-light: #fff;
+            --border-radius: 12px;
+        }    
+
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9ff;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: var(--text-light);
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+        
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .hero {
+            background-color: var(--primary-light);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            color: var(--primary-dark);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            color: var(--primary-dark);
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 4px;
+        }
+        
+        .investment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+        
+        .investment-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .investment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-icon {
+            height: 140px;
+            background-color: var(--primary-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: var(--primary);
+        }
+        
+        .card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+        
+        .card-content p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .card-features {
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+        
+        .card-features ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .card-features li {
+            margin-bottom: 5px;
+        }
+        
+        .video-section {
+            padding: 60px 0;
+            background-color: var(--secondary);
+            margin-bottom: 40px;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .video-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .video-container {
+            position: relative;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        .video-info {
+            padding: 15px;
+        }
+        
+        .video-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+        
+        .video-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .investment-grid, .video-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        /* Cute Elements */
+        .cute-bubble {
+            display: inline-block;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .cute-bubble:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .fun-fact {
+            background-color: rgba(78, 175, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .fun-fact-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+        
+        /* Animation */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .read-more {
+            display: none;
+        }
+        
+        .expand-card {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        .expand-card:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">💰</div>
+                <div class="logo-text">Investipedia</div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#investment-options">Investment Options</a></li>
+                    <li><a href="#videos">Videos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <div class="logo-icon floating" style="font-size: 4rem; margin-bottom: 20px;">💸</div>
+            <h1>Welcome to Investipedia</h1>
+            <p>Your cute guide to smart investments! Learn about various investment options from FDs to Cryptocurrency and make informed financial decisions.</p>
+        </div>
+    </section>
+    
+    <section id="investment-options" class="container">
+        <h2 class="section-title">Investment Options</h2>
+        <div class="investment-grid">
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>🏦</span>
+                </div>
+                <div class="card-content">
+                    <h3>Fixed Deposits (FDs)</h3>
+                    <p>Fixed Deposits are one of the most popular and secure investment options offered by banks with guaranteed returns over a fixed period.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Interest Rates:</strong> Typically 5-7% annually, higher for senior citizens</li>
+                            <li><strong>Tenure:</strong> 7 days to 10 years</li>
+                            <li><strong>Risk:</strong> Very low (backed by bank guarantees)</li>
+                            <li><strong>Taxation:</strong> Interest taxed as per income slab</li>
+                            <li><strong>Liquidity:</strong> Low (premature withdrawal possible with penalty)</li>
+                            <li><strong>Min Investment:</strong> Often as low as ₹1,000</li>
+                        </ul>
+                        <p>Best for: Conservative investors seeking safety and guaranteed returns without market risks.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>📈</span>
+                </div>
+                <div class="card-content">
+                    <h3>Public Provident Fund (PPF)</h3>
+                    <p>A long-term government-backed savings scheme with tax benefits and guaranteed returns, popular for retirement planning.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Interest Rates:</strong> Currently around 7.1% (changes quarterly)</li>
+                            <li><strong>Tenure:</strong> 15 years (can be extended)</li>
+                            <li><strong>Risk:</strong> Very low (government backed)</li>
+                            <li><strong>Taxation:</strong> Tax-free interest, eligible for 80C deduction</li>
+                            <li><strong>Liquidity:</strong> Partial withdrawal allowed after 7th year</li>
+                            <li><strong>Min Investment:</strong> ₹500 annually (max: ₹1.5 lakh)</li>
+                        </ul>
+                        <p>Best for: Long-term investors seeking tax benefits and guaranteed returns for retirement planning.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>📮</span>
+                </div>
+                <div class="card-content">
+                    <h3>Post Office Schemes</h3>
+                    <p>Various savings schemes offered by India Post with competitive interest rates and government backing.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Options:</strong> Post Office Savings Account, Time Deposit, Monthly Income Scheme, Senior Citizen Savings Scheme, etc.</li>
+                            <li><strong>Interest Rates:</strong> Varies by scheme (4-7.6%)</li>
+                            <li><strong>Risk:</strong> Very low (government backed)</li>
+                            <li><strong>Taxation:</strong> Taxable as per income slab (some schemes have tax benefits)</li>
+                            <li><strong>Min Investment:</strong> As low as ₹50 for savings accounts</li>
+                        </ul>
+                        <p>Best for: Conservative investors looking for government-backed security and regular income, especially in areas with limited banking access.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>📊</span>
+                </div>
+                <div class="card-content">
+                    <h3>Stocks</h3>
+                    <p>Ownership shares in companies that can provide capital appreciation and dividends over time.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Returns:</strong> Potentially high (10-15% average annual over long term)</li>
+                            <li><strong>Risk:</strong> High (market volatility)</li>
+                            <li><strong>Taxation:</strong> Short-term capital gains (held < 1 year) taxed at 15%, long-term at 10% above ₹1 lakh</li>
+                            <li><strong>Liquidity:</strong> High (can sell during market hours)</li>
+                            <li><strong>Min Investment:</strong> Price of 1 share</li>
+                        </ul>
+                        <p>Best for: Growth-oriented investors willing to accept higher risk for potentially higher returns over long periods.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>🏆</span>
+                </div>
+                <div class="card-content">
+                    <h3>Mutual Funds</h3>
+                    <p>Professionally managed investment pools that collect money from many investors to purchase securities.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Types:</strong> Equity, Debt, Hybrid, Index, ELSS, etc.</li>
+                            <li><strong>Returns:</strong> Varies by fund type (8-12% for equity, 5-8% for debt)</li>
+                            <li><strong>Risk:</strong> Varies by fund type (Equity: High, Debt: Low to Medium)</li>
+                            <li><strong>Taxation:</strong> Depends on fund type (Equity/Debt) and holding period</li>
+                            <li><strong>Min Investment:</strong> As low as ₹500 or ₹1,000</li>
+                            <li><strong>SIP Option:</strong> Yes (can invest small amounts regularly)</li>
+                        </ul>
+                        <p>Best for: Investors seeking diversification and professional management without needing deep market knowledge.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>✨</span>
+                </div>
+                <div class="card-content">
+                    <h3>Sovereign Gold Bonds</h3>
+                    <p>Government securities denominated in grams of gold, offering an alternative to physical gold ownership.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Interest:</strong> 2.5% fixed annual interest on investment value</li>
+                            <li><strong>Capital Gains:</strong> Linked to gold price movements</li>
+                            <li><strong>Risk:</strong> Low to Medium (gold price volatility)</li>
+                            <li><strong>Taxation:</strong> Interest is taxable; capital gains tax exempt if held till maturity</li>
+                            <li><strong>Tenure:</strong> 8 years (exit option from 5th year)</li>
+                            <li><strong>Min Investment:</strong> 1 gram of gold</li>
+                        </ul>
+                        <p>Best for: Gold investors seeking better returns than physical gold without storage concerns.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>🔐</span>
+                </div>
+                <div class="card-content">
+                    <h3>RBI Bonds</h3>
+                    <p>Bonds issued by the Reserve Bank of India with fixed interest rates and guaranteed returns.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Interest Rate:</strong> Currently 7.75% per annum</li>
+                            <li><strong>Payment:</strong> Half-yearly interest payments</li>
+                            <li><strong>Risk:</strong> Very low (sovereign guarantee)</li>
+                            <li><strong>Taxation:</strong> Interest is fully taxable as per income slab</li>
+                            <li><strong>Tenure:</strong> 7 years</li>
+                            <li><strong>Min Investment:</strong> ₹1,000 (no maximum limit)</li>
+                        </ul>
+                        <p>Best for: Conservative investors seeking regular income with very low risk, especially retirees.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>🏢</span>
+                </div>
+                <div class="card-content">
+                    <h3>Real Estate</h3>
+                    <p>Investment in properties and land that can provide rental income and capital appreciation over time.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Returns:</strong> Rental yield (2-4% annually) + potential appreciation (5-10% annually)</li>
+                            <li><strong>Risk:</strong> Medium to High (location dependent, illiquid)</li>
+                            <li><strong>Taxation:</strong> Rental income taxed as per slab; long-term capital gains taxed at 20% with indexation</li>
+                            <li><strong>Liquidity:</strong> Very low</li>
+                            <li><strong>Min Investment:</strong> High (typically several lakhs to crores)</li>
+                            <li><strong>Alternative:</strong> REITs (Real Estate Investment Trusts) for lower entry</li>
+                        </ul>
+                        <p>Best for: Investors with substantial capital seeking tangible assets and long-term wealth creation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>🌾</span>
+                </div>
+                <div class="card-content">
+                    <h3>Commodity Investment</h3>
+                    <p>Investment in physical goods like precious metals, agricultural products, and energy resources.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Types:</strong> Gold, Silver, Crude Oil, Base Metals, Agricultural commodities</li>
+                            <li><strong>Methods:</strong> Physical ownership, Futures contracts, ETFs, Commodity mutual funds</li>
+                            <li><strong>Risk:</strong> High (price volatility)</li>
+                            <li><strong>Taxation:</strong> Varies by investment method</li>
+                            <li><strong>Min Investment:</strong> Varies (can be low for ETFs/funds)</li>
+                        </ul>
+                        <p>Best for: Portfolio diversification and as a hedge against inflation and currency devaluation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="investment-card">
+                <div class="card-icon">
+                    <span>🪙</span>
+                </div>
+                <div class="card-content">
+                    <h3>Cryptocurrency</h3>
+                    <p>Digital or virtual currencies that use cryptography for security and operate on decentralized networks.</p>
+                    <div class="card-features">
+                        <ul>
+                            <li><strong>Types:</strong> Bitcoin, Ethereum, and thousands of altcoins</li>
+                            <li><strong>Returns:</strong> Highly variable (potential for significant gains or losses)</li>
+                            <li><strong>Risk:</strong> Very high (extreme volatility, regulatory uncertainty)</li>
+                            <li><strong>Taxation:</strong> 30% flat tax on profits in India</li>
+                            <li><strong>Liquidity:</strong> High (can trade 24/7)</li>
+                            <li><strong>Min Investment:</strong> Can start with small amounts (fractional ownership)</li>
+                        </ul>
+                        <p>Best for: Risk-tolerant investors who understand blockchain technology and can withstand significant volatility.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="fun-fact">
+            <div class="fun-fact-title">
+                <span>💡</span> Did you know?
+            </div>
+            <p>Diversification is key to reducing investment risk. Experts recommend spreading your investments across different asset classes!</p>
+        </div>
+        
+        <div style="text-align: center; margin: 40px 0;">
+            <div style="margin-bottom: 15px; font-weight: 600; color: var(--primary-dark);">Popular Investment Topics</div>
+            <div>
+                <span class="cute-bubble">Tax-saving investments</span>
+                <span class="cute-bubble">Long-term growth</span>
+                <span class="cute-bubble">Retirement planning</span>
+                <span class="cute-bubble">Low-risk options</span>
+                <span class="cute-bubble">High returns</span>
+                <span class="cute-bubble">Beginner friendly</span>
+            </div>
+        </div>
+    </section>
+    
+    <section id="videos" class="video-section">
+        <div class="container">
+            <h2 class="section-title">Educational Videos</h2>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/8zWQ9aXmeaY" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Investment Basics by Warikoo</h3>
+                        <p>Learn the fundamentals of investing and financial planning from Ankur Warikoo's comprehensive tutorial.</p>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/HewBrC1BMmg" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Financial Education by Dr. Anuj Pachhel</h3>
+                        <p>Expert insights on making smart investment decisions with Dr. Anuj Pachhel's practical advice.</p>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/8A3s9WP_7l4" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Investment Guide by Dhruv Rathee</h3>
+                        <p>Comprehensive breakdown of different investment options with Dhruv Rathee's clear explanations.</p>
+                    </div>
+                </div>
+                
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/rYQgy8QDEBI" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>Future of Investments by Mrwhosetheboss</h3>
+                        <p>Exploring innovative investment opportunities and future trends in the financial world.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

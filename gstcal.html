@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inder&family=Jomhuria&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(to bottom, #0D0D40, #585B8A);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'inder';
+        }
+        
+        .calculator-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+        }
+        
+       
+        
+        .brand-name {
+            font-size: 35px;
+            font-weight: bold;
+            color: #A2D696;
+            margin-bottom: 10px;
+            margin-left: 160px;
+        }
+        
+        .tagline {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .info-section {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid #4a90e2;
+        }
+        
+        .info-section h2 {
+            color: #4a90e2;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .info-section p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+        }
+        
+        .rates-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+        
+        .rates-table th, .rates-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .rates-table th {
+            background-color: #f2f2f2;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+        
+        .slider-container {
+            margin-bottom: 20px;
+        }
+        
+        .slider {
+            -webkit_appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+            margin-top: 10px;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4a90e2;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4a90e2;
+            cursor: pointer;
+        }
+        
+        .rate-value {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-top: 10px;
+        }
+        
+        .btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #3a7bd5;
+        }
+        
+        .results {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .result-item:last-child {
+            margin-bottom: 0;
+            padding-top: 10px;
+            border-top: 1px dashed #eee;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .result-label {
+            color: #555;
+        }
+        
+        .result-value {
+            font-weight: 500;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <!-- Logo and Brand Name -->
+        <div class="logo-container">
+            <div class="brand-name">Smart Return</div>
+        </div>
+        
+        <!-- Information Section -->
+        <div class="info-section">
+            <h2>Understanding GST in India</h2>
+            <p>Goods and Services Tax (GST) is an indirect tax levied on the supply of goods and services in India. It replaced multiple taxes like VAT, Service Tax, and Excise Duty to create a unified tax structure.</p>
+            
+            <h2>Current GST Rates in India</h2>
+            <table class="rates-table">
+                <tr>
+                    <th>Rate</th>
+                    <th>Applicable for</th>
+                </tr>
+                <tr>
+                    <td>0%</td>
+                    <td>Essential goods like fresh fruits, vegetables, milk</td>
+                </tr>
+                <tr>
+                    <td>5%</td>
+                    <td>Essential commodities, packaged food items</td>
+                </tr>
+                <tr>
+                    <td>12%</td>
+                    <td>Computers, processed food, mobiles</td>
+                </tr>
+                <tr>
+                    <td>18%</td>
+                    <td>Most goods and services, electronics</td>
+                </tr>
+                <tr>
+                    <td>28%</td>
+                    <td>Luxury items, automobiles, tobacco products</td>
+                </tr>
+            </table>
+            
+            <h2>How We Calculate GST</h2>
+            <p>Our calculator uses the following formula to determine GST:</p>
+            <p><strong>GST Amount</strong> = Original Amount × GST Rate ÷ 100</p>
+            <p><strong>Total Amount</strong> = Original Amount + GST Amount</p>
+        </div>
+        
+        <!-- Calculator Section -->
+        <h1>GST Calculator</h1>
+        
+        <div class="input-group">
+            <label for="amount">Amount (Before GST)</label>
+            <input type="number" id="amount" placeholder="Enter amount" min="0" step="0.01">
+        </div>
+        
+        <div class="slider-container">
+            <label for="gst-rate">GST Rate (%)</label>
+            <input type="range" min="0" max="28" value="18" class="slider" id="gst-rate" step="0.5">
+            <div class="rate-value" id="rate-value">18%</div>
+        </div>
+        
+        <button class="btn" id="calculate-btn">Calculate GST</button>
+        
+        <div class="results hidden" id="results">
+            <div class="result-item">
+                <span class="result-label">Original Amount:</span>
+                <span class="result-value" id="original-amount">₹0.00</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">GST Amount:</span>
+                <span class="result-value" id="gst-amount">₹0.00</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Total Amount:</span>
+                <span class="result-value" id="total-amount">₹0.00</span>
+            </div>
+        </div>
+        
+        <div class="footer">
+            © 2025 TaxCalc Pro. All calculations are based on current GST rates.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gstRateSlider = document.getElementById('gst-rate');
+            const rateValueDisplay = document.getElementById('rate-value');
+            const calculateBtn = document.getElementById('calculate-btn');
+            const amountInput = document.getElementById('amount');
+            const resultsDiv = document.getElementById('results');
+            const originalAmountSpan = document.getElementById('original-amount');
+            const gstAmountSpan = document.getElementById('gst-amount');
+            const totalAmountSpan = document.getElementById('total-amount');
+            
+            // Update the GST rate display as the slider moves
+            gstRateSlider.addEventListener('input', function() {
+                rateValueDisplay.textContent = this.value + '%';
+            });
+            
+            // Calculate GST on button click
+            calculateBtn.addEventListener('click', function() {
+                // Get input values
+                const originalAmount = parseFloat(amountInput.value);
+                const gstRate = parseFloat(gstRateSlider.value);
+                
+                // Validate input
+                if (isNaN(originalAmount) || originalAmount <= 0) {
+                    alert('Please enter a valid amount');
+                    return;
+                }
+                
+                // Calculate GST
+                const gstAmount = (originalAmount * gstRate) / 100;
+                const totalAmount = originalAmount + gstAmount;
+                
+                // Display results
+                originalAmountSpan.textContent = '₹' + originalAmount.toFixed(2);
+                gstAmountSpan.textContent = '₹' + gstAmount.toFixed(2);
+                totalAmountSpan.textContent = '₹' + totalAmount.toFixed(2);
+                
+                // Show results section
+                resultsDiv.classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Forecast Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inder&family=Jomhuria&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'inder';
+            margin: 0;
+            padding: 20px;
+            background-color: #343761;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #A2D696;
+            margin-bottom: 30px;
+        }
+        
+        .form-container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .form-col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 20px auto 0;
+            width: 200px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .chart-box {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        canvas {
+            width: 100% !important;
+            height: 300px !important;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            margin: 30px 0 15px;
+            color: #2c3e50;
+            border-bottom: 2px solid #e0e6ed;
+            padding-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-col {
+                flex: 100%;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tax Forecast Visualization</h1>
+        
+        <div class="form-container">
+            <div class="section-title">Enter Your Details</div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="currentIncome">Current Annual Income (₹)</label>
+                        <input type="number" id="currentIncome" min="0" value="1000000">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="incomeGrowth">Expected Annual Income Growth (%)</label>
+                        <input type="number" id="incomeGrowth" min="0" max="100" value="10">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="forecastYears">Number of Years to Forecast</label>
+                        <input type="number" id="forecastYears" min="1" max="20" value="5">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">80C Investments & Deductions</div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="ppf">PPF Investment (₹)</label>
+                        <input type="number" id="ppf" min="0" max="150000" value="50000">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="elss">ELSS Investment (₹)</label>
+                        <input type="number" id="elss" min="0" max="150000" value="30000">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="nps">NPS Investment (₹)</label>
+                        <input type="number" id="nps" min="0" max="150000" value="25000">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="insurance">Life Insurance Premium (₹)</label>
+                        <input type="number" id="insurance" min="0" max="150000" value="20000">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="homeLoan">Home Loan Principal Repayment (₹)</label>
+                        <input type="number" id="homeLoan" min="0" max="200000" value="100000">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="investmentGrowth">Annual Investment Growth (%)</label>
+                        <input type="number" id="investmentGrowth" min="0" max="50" value="5">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">Other Deductions</div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="medicalInsurance">Medical Insurance (80D) (₹)</label>
+                        <input type="number" id="medicalInsurance" min="0" max="75000" value="25000">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="hra">HRA Exemption (₹)</label>
+                        <input type="number" id="hra" min="0" value="120000">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="otherDeductions">Other Deductions (₹)</label>
+                        <input type="number" id="otherDeductions" min="0" value="50000">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">Tax Regime</div>
+            
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="taxRegime">Tax Regime</label>
+                        <select id="taxRegime">
+                            <option value="old">Old Regime (with deductions)</option>
+                            <option value="new">New Regime (without deductions)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="calculateBtn">Generate Tax Forecast</button>
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-box">
+                <div class="chart-title">Income vs Tax Liability</div>
+                <canvas id="incomeVsTaxChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <div class="chart-title">Tax Saving Through Investments</div>
+                <canvas id="taxSavingChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize charts with empty data
+            initializeCharts();
+            
+            // Add event listener to the calculate button
+            document.getElementById('calculateBtn').addEventListener('click', generateForecast);
+            
+            // Generate initial forecast
+            generateForecast();
+        });
+        
+        // Chart instances
+        let incomeVsTaxChart, taxSavingChart;
+        
+        function initializeCharts() {
+            // Chart 1: Income vs Tax Liability
+            const incomeVsTaxCtx = document.getElementById('incomeVsTaxChart').getContext('2d');
+            incomeVsTaxChart = new Chart(incomeVsTaxCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Income',
+                        data: [],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }, {
+                        label: 'Tax Amount',
+                        data: [],
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        borderWidth: 2,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Amount (₹)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Chart 2: Tax Saving Through Investments (Stacked Bar Chart)
+            const taxSavingCtx = document.getElementById('taxSavingChart').getContext('2d');
+            taxSavingChart = new Chart(taxSavingCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'PPF',
+                        data: [],
+                        backgroundColor: 'rgba(52, 152, 219, 0.7)'
+                    }, {
+                        label: 'ELSS',
+                        data: [],
+                        backgroundColor: 'rgba(155, 89, 182, 0.7)'
+                    }, {
+                        label: 'NPS',
+                        data: [],
+                        backgroundColor: 'rgba(46, 204, 113, 0.7)'
+                    }, {
+                        label: 'Insurance',
+                        data: [],
+                        backgroundColor: 'rgba(241, 196, 15, 0.7)'
+                    }, {
+                        label: 'Home Loan',
+                        data: [],
+                        backgroundColor: 'rgba(230, 126, 34, 0.7)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Amount (₹)'
+                            }
+                        },
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Year'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function generateForecast() {
+            // Get all input values
+            const currentIncome = parseFloat(document.getElementById('currentIncome').value) || 0;
+            const incomeGrowth = parseFloat(document.getElementById('incomeGrowth').value) || 0;
+            const forecastYears = parseInt(document.getElementById('forecastYears').value) || 5;
+            
+            const ppf = parseFloat(document.getElementById('ppf').value) || 0;
+            const elss = parseFloat(document.getElementById('elss').value) || 0;
+            const nps = parseFloat(document.getElementById('nps').value) || 0;
+            const insurance = parseFloat(document.getElementById('insurance').value) || 0;
+            const homeLoan = parseFloat(document.getElementById('homeLoan').value) || 0;
+            const investmentGrowth = parseFloat(document.getElementById('investmentGrowth').value) || 0;
+            
+            const medicalInsurance = parseFloat(document.getElementById('medicalInsurance').value) || 0;
+            const hra = parseFloat(document.getElementById('hra').value) || 0;
+            const otherDeductions = parseFloat(document.getElementById('otherDeductions').value) || 0;
+            
+            const taxRegime = document.getElementById('taxRegime').value;
+            
+            // Calculate tax forecast data
+            const forecastData = calculateTaxForecast(
+                currentIncome, 
+                incomeGrowth, 
+                forecastYears, 
+                ppf, 
+                elss, 
+                nps, 
+                insurance, 
+                homeLoan, 
+                investmentGrowth, 
+                medicalInsurance, 
+                hra, 
+                otherDeductions, 
+                taxRegime
+            );
+            
+            // Update charts with calculated data
+            updateCharts(forecastData);
+        }
+        
+        function calculateTaxForecast(
+            currentIncome, 
+            incomeGrowth, 
+            forecastYears, 
+            ppf, 
+            elss, 
+            nps, 
+            insurance, 
+            homeLoan, 
+            investmentGrowth, 
+            medicalInsurance, 
+            hra, 
+            otherDeductions, 
+            taxRegime
+        ) {
+            const currentYear = new Date().getFullYear();
+            const years = Array.from({length: forecastYears}, (_, i) => currentYear + i);
+            
+            // Initialize arrays to store calculated values
+            const incomeValues = [];
+            const taxValues = [];
+            const taxWithoutDeductionsValues = [];
+            const taxSavingsValues = [];
+            
+            const ppfValues = [];
+            const elssValues = [];
+            const npsValues = [];
+            const insuranceValues = [];
+            const homeLoanValues = [];
+            
+            const totalIncomeValues = [];
+            const taxableIncomeValues = [];
+            const section80CValues = [];
+            const otherDeductionValues = [];
+            
+            // Calculate values for each year
+            for (let i = 0; i < forecastYears; i++) {
+                // Calculate income with growth
+                const yearlyIncome = currentIncome * Math.pow(1 + (incomeGrowth / 100), i);
+                incomeValues.push(Math.round(yearlyIncome));
+                
+                // Calculate investments with growth
+                const yearlyPPF = ppf * Math.pow(1 + (investmentGrowth / 100), i);
+                const yearlyELSS = elss * Math.pow(1 + (investmentGrowth / 100), i);
+                const yearlyNPS = nps * Math.pow(1 + (investmentGrowth / 100), i);
+                const yearlyInsurance = insurance * Math.pow(1 + (investmentGrowth / 100), i);
+                const yearlyHomeLoan = homeLoan * Math.pow(1 + (investmentGrowth / 100), i);
+                
+                ppfValues.push(Math.round(yearlyPPF));
+                elssValues.push(Math.round(yearlyELSS));
+                npsValues.push(Math.round(yearlyNPS));
+                insuranceValues.push(Math.round(yearlyInsurance));
+                homeLoanValues.push(Math.round(yearlyHomeLoan));
+                
+                // Calculate other deductions with growth
+                const yearlyMedicalInsurance = medicalInsurance * Math.pow(1 + (investmentGrowth / 100), i);
+                const yearlyHRA = hra * Math.pow(1 + (incomeGrowth / 100), i);
+                const yearlyOtherDeductions = otherDeductions * Math.pow(1 + (investmentGrowth / 100), i);
+                
+                // Calculate total section 80C deductions (max limit 1.5 lakh)
+                const section80CDeductions = Math.min(
+                    yearlyPPF + yearlyELSS + yearlyNPS + yearlyInsurance + yearlyHomeLoan,
+                    150000
+                );
+                
+                // Calculate total deductions
+                const totalDeductions = section80CDeductions + yearlyMedicalInsurance + yearlyHRA + yearlyOtherDeductions;
+                
+                // Calculate taxable income
+                let taxableIncome;
+                let taxWithoutDeductions;
+                
+                if (taxRegime === 'old') {
+                    taxableIncome = Math.max(0, yearlyIncome - totalDeductions);
+                    taxWithoutDeductions = yearlyIncome;
+                } else {
+                    // New regime doesn't allow most deductions
+                    taxableIncome = yearlyIncome;
+                    taxWithoutDeductions = yearlyIncome;
+                }
+                
+                // Calculate tax based on income tax slabs (simplified)
+                const taxAmount = calculateTax(taxableIncome, taxRegime);
+                const taxWithoutDeductionsAmount = calculateTax(taxWithoutDeductions, taxRegime);
+                const taxSavings = taxWithoutDeductionsAmount - taxAmount;
+                
+                taxValues.push(Math.round(taxAmount));
+                taxWithoutDeductionsValues.push(Math.round(taxWithoutDeductionsAmount));
+                taxSavingsValues.push(Math.round(taxSavings));
+                
+                totalIncomeValues.push(Math.round(yearlyIncome));
+                taxableIncomeValues.push(Math.round(taxableIncome));
+                section80CValues.push(Math.round(section80CDeductions));
+                otherDeductionValues.push(Math.round(yearlyMedicalInsurance + yearlyHRA + yearlyOtherDeductions));
+            }
+            
+            return {
+                years,
+                incomeValues,
+                taxValues,
+                taxSavingsValues,
+                ppfValues,
+                elssValues,
+                npsValues,
+                insuranceValues,
+                homeLoanValues,
+                totalIncomeValues,
+                taxableIncomeValues,
+                section80CValues,
+                otherDeductionValues
+            };
+        }
+        
+        function calculateTax(income, regime) {
+            let tax = 0;
+            
+            if (regime === 'old') {
+                // Old tax regime (FY 2023-24)
+                if (income <= 250000) {
+                    tax = 0;
+                } else if (income <= 500000) {
+                    tax = (income - 250000) * 0.05;
+                } else if (income <= 1000000) {
+                    tax = 12500 + (income - 500000) * 0.20;
+                } else {
+                    tax = 112500 + (income - 1000000) * 0.30;
+                }
+            } else {
+                // New tax regime (FY 2023-24)
+                if (income <= 300000) {
+                    tax = 0;
+                } else if (income <= 600000) {
+                    tax = (income - 300000) * 0.05;
+                } else if (income <= 900000) {
+                    tax = 15000 + (income - 600000) * 0.10;
+                } else if (income <= 1200000) {
+                    tax = 45000 + (income - 900000) * 0.15;
+                } else if (income <= 1500000) {
+                    tax = 90000 + (income - 1200000) * 0.20;
+                } else {
+                    tax = 150000 + (income - 1500000) * 0.30;
+                }
+            }
+            
+            // Add 4% cess
+            tax = tax * 1.04;
+            
+            return tax;
+        }
+        
+        function updateCharts(data) {
+            // Update Chart 1: Income vs Tax Liability
+            incomeVsTaxChart.data.labels = data.years;
+            incomeVsTaxChart.data.datasets[0].data = data.incomeValues;
+            incomeVsTaxChart.data.datasets[1].data = data.taxValues;
+            incomeVsTaxChart.update();
+            
+            // Update Chart 2: Tax Saving Through Investments
+            taxSavingChart.data.labels = data.years;
+            taxSavingChart.data.datasets[0].data = data.ppfValues;
+            taxSavingChart.data.datasets[1].data = data.elssValues;
+            taxSavingChart.data.datasets[2].data = data.npsValues;
+            taxSavingChart.data.datasets[3].data = data.insuranceValues;
+            taxSavingChart.data.datasets[4].data = data.homeLoanValues;
+            taxSavingChart.update();
+        }
+    </script>
+</body>
+</html>

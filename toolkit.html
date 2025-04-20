@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GST Toolkit India</title>
+    <style>
+        :root {
+            --primary: #0f2b5b;
+            --secondary: #243b5a;
+            --accent: #f59e0b;
+            --light: #ffffff;
+            --dark: #0f2b5b;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --border-color: #e5e7eb;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            border-bottom: 4px solid var(--accent);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        nav {
+            background-color: var(--dark);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            overflow-x: auto;
+        }
+        
+        .nav-links li {
+            flex-shrink: 0;
+        }
+        
+        .nav-links a {
+            display: block;
+            padding: 1rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        section {
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 35%; /* Smaller video size */
+            height: 0;
+            overflow: hidden;
+            max-width: 70%; /* Smaller video size */
+            margin: 2rem auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .video-item {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .video-item iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        
+        .video-title {
+            margin-top: 0.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        
+        .slab-nil {
+            background-color: #dcfce7;
+        }
+        
+        .slab-5 {
+            background-color: #dbeafe;
+        }
+        
+        .slab-12 {
+            background-color: #fef3c7;
+        }
+        
+        .slab-18 {
+            background-color: #fee2e2;
+        }
+        
+        .slab-28 {
+            background-color: #f5d0fe;
+        }
+        
+        .date-highlight {
+            font-weight: bold;
+            color: #dc2626;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #d97706;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.75rem;
+            }
+            
+            h3 {
+                font-size: 1.25rem;
+            }
+            
+            .video-container {
+                max-width: 100%;
+                padding-bottom: 56.25%;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>GST Toolkit India</h1>
+            <p>Your comprehensive guide to the Goods and Services Tax in India</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#what-is-gst">What is GST?</a></li>
+                <li><a href="#gst-slabs">GST Slabs 2025</a></li>
+                <li><a href="#gst-components">GST Components</a></li>
+                <li><a href="#videos">GST Videos</a></li>
+                <li><a href="#non-gst">Non-GST Goods</a></li>
+                <li><a href="#gst-returns">GST Return Dates</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <section id="what-is-gst">
+            <h2>What is GST in India?</h2>
+            
+            <div class="card">
+                <h3>GST Definition</h3>
+                <p>The Goods and Services Tax (GST) is an indirect tax implemented in India on July 1, 2017, replacing multiple cascading taxes levied by the central and state governments. It's a comprehensive, multi-stage, destination-based tax that is applied on every value addition.</p>
+                
+                <h3>Key Features of GST</h3>
+                <p>GST has been designed as a unified tax system that:</p>
+                <ul>
+                    <li>Eliminates the cascading effect of taxes (tax on tax)</li>
+                    <li>Creates a common national market</li>
+                    <li>Simplifies the tax structure</li>
+                    <li>Reduces hidden costs of doing business</li>
+                    <li>Enhances transparency in taxation</li>
+                </ul>
+                
+                <h3>GST Structure in India</h3>
+                <p>India has adopted a dual GST model where the tax is levied by both the Central and State governments:</p>
+                <ul>
+                    <li><strong>CGST (Central GST):</strong> Collected by the Central Government</li>
+                    <li><strong>SGST (State GST):</strong> Collected by the State Government</li>
+                    <li><strong>IGST (Integrated GST):</strong> Collected on inter-state supply of goods and services</li>
+                    <li><strong>UTGST (Union Territory GST):</strong> Collected in Union Territories without legislature</li>
+                </ul>
+            </div>
+            
+            <div class="video-container">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/-oLWs6Z9W30" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            
+            <div class="card">
+                <h3>Benefits of GST</h3>
+                <ul>
+                    <li>Reduction in overall tax burden on goods</li>
+                    <li>Mitigation of cascading effects</li>
+                    <li>Development of a common national market</li>
+                    <li>Enhanced ease of doing business</li>
+                    <li>Improved tax compliance with a robust IT infrastructure</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="gst-slabs">
+            <h2>GST Slabs for 2025</h2>
+            
+            <div class="card">
+                <p>The GST Council has established a multi-tier tax structure with various tax slabs. Here are the latest GST rates applicable in 2025:</p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>GST Rate</th>
+                                <th>Category of Goods & Services</th>
+                                <th>Examples</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="slab-nil">
+                                <td>0% (Nil)</td>
+                                <td>Essential goods and services</td>
+                                <td>Fresh fruits and vegetables, milk, curd, unbranded atta, natural honey, education services, healthcare services</td>
+                            </tr>
+                            <tr class="slab-5">
+                                <td>5%</td>
+                                <td>Items of mass consumption</td>
+                                <td>Branded paneer, frozen vegetables, coffee, tea, spices, drugs and medicines, PDS kerosene, coal, lifesaving drugs</td>
+                            </tr>
+                            <tr class="slab-12">
+                                <td>12%</td>
+                                <td>Standard necessity items</td>
+                                <td>Frozen meat products, butter, cheese, ghee, dry fruits, animal fat, sausage, fruit juices, ayurvedic medicines, mobile phones</td>
+                            </tr>
+                            <tr class="slab-18">
+                                <td>18%</td>
+                                <td>Standard rate for most items</td>
+                                <td>Pasta, cornflakes, pastries, cakes, preserved vegetables, jams, sauces, soups, ice cream, computers, printers, telecom services</td>
+                            </tr>
+                            <tr class="slab-28">
+                                <td>28%</td>
+                                <td>Luxury and sin goods</td>
+                                <td>Chewing gum, chocolates, pan masala, aerated water, paint, deodorants, shaving creams, luxury cars, motorcycles, aircraft, yacht</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>Special Rates</h3>
+                <p>Besides the standard slabs, there are special rates for specific items:</p>
+                <ul>
+                    <li>3% on gold, silver, and semi-precious stones</li>
+                    <li>0.25% on rough precious and semi-precious stones</li>
+                    <li>28% + Cess (ranging from 1% to 25%) on luxury and sin goods like tobacco products, luxury cars, and aerated drinks</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="gst-components">
+            <h2>Components of GST</h2>
+            
+            <div class="card">
+                <h3>Central GST (CGST)</h3>
+                <p>CGST is the tax collected by the Central Government on intra-state sales (i.e., sales within the same state). The revenue from CGST goes to the Central Government.</p>
+                <p>Example: If a product has a GST rate of 18% and is sold within Maharashtra, 9% would be collected as CGST.</p>
+            </div>
+            
+            <div class="card">
+                <h3>State GST (SGST)</h3>
+                <p>SGST is collected by the State Government on intra-state sales. The revenue from SGST goes to the respective State Government.</p>
+                <p>Example: Using the same example above, the remaining 9% would be collected as SGST for the Maharashtra government.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Integrated GST (IGST)</h3>
+                <p>IGST is collected on inter-state sales of goods and services, as well as on imports. The IGST is collected by the Central Government, which then distributes it between the Center and the destination State.</p>
+                <p>Example: If a product with an 18% GST rate is sold from Maharashtra to Gujarat, the entire 18% would be collected as IGST.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Union Territory GST (UTGST)</h3>
+                <p>UTGST is collected on intra-UT supply of goods and services in Union Territories without legislature (Andaman and Nicobar Islands, Lakshadweep, Dadra and Nagar Haveli, Daman and Diu, and Chandigarh).</p>
+                <p>Example: For a product with an 18% GST rate sold within Chandigarh, 9% would be CGST and 9% would be UTGST.</p>
+            </div>
+            
+            <div class="card">
+                <h3>GST Compensation Cess</h3>
+                <p>This is an additional levy on certain luxury and sin goods, designed to compensate states for revenue losses due to GST implementation. The cess is collected by the Central Government and distributed to affected states.</p>
+                <p>Example: Luxury cars are taxed at 28% GST plus a compensation cess that can range from 1% to 22%.</p>
+            </div>
+        </section>
+        
+        <section id="videos">
+            <h2>GST Explained - Video Resources</h2>
+            
+            <div class="card">
+                <p>Watch these informative videos to better understand various aspects of GST in India:</p>
+                
+                <div class="video-grid">
+                    <div>
+                        <div class="video-item">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/qj4TZoNHbR0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <p class="video-title">GST Explained - Study IQ IAS</p>
+                    </div>
+                    
+                    <div>
+                        <div class="video-item">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/tAz19w9YhxQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <p class="video-title">GST Insights - The Indian Express</p>
+                    </div>
+                    
+                    <div>
+                        <div class="video-item">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/5Jq2tDpnnGk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <p class="video-title">GST Impact - NDTV Profit</p>
+                    </div>
+                    
+                    <div>
+                        <div class="video-item">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/uKyfuEvMt3w" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <p class="video-title">GST Simplified - Abhi and Niyu</p>
+                    </div>
+                    
+                    <div>
+                        <div class="video-item">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/UpEndgrun08" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <p class="video-title">GST Updates - Let's Go Digital</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="non-gst">
+            <h2>Non-GST Goods</h2>
+            
+            <div class="card">
+                <p>Certain goods and services remain outside the GST framework and continue to be taxed under the previous tax regime. Here are the major categories:</p>
+                
+                <h3>Petroleum Products</h3>
+                <p>Five petroleum products are currently outside the GST regime:</p>
+                <ul>
+                    <li>Crude oil</li>
+                    <li>Natural gas</li>
+                    <li>Petrol</li>
+                    <li>Diesel</li>
+                    <li>Aviation turbine fuel (ATF)</li>
+                </ul>
+                <p>These products continue to attract Central Excise Duty (for the Center) and Sales Tax/VAT (for the States).</p>
+            </div>
+            
+            <div class="card">
+                <h3>Alcoholic Beverages</h3>
+                <p>Alcoholic beverages for human consumption remain outside the GST framework. States continue to levy state excise duty and sales tax/VAT on alcoholic beverages.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Electricity</h3>
+                <p>Electricity is exempt from GST. Instead, electricity duty is levied by the states.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Real Estate</h3>
+                <p>While construction services fall under GST, the sale of land and completed buildings is outside the GST regime. Stamp duty and registration fees continue to apply on real estate transactions.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Tobacco Products</h3>
+                <p>Tobacco products are subject to GST, but states are also allowed to levy taxes on tobacco products in addition to GST.</p>
+            </div>
+        </section>
+        
+        <section id="gst-returns">
+            <h2>GST Return Filing Dates</h2>
+            
+            <div class="card">
+                <p>Filing GST returns is a mandatory compliance requirement for all registered businesses. Here are the important GST return forms and their filing due dates:</p>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Return Form</th>
+                                <th>Filed By</th>
+                                <th>Periodicity</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GSTR-1</td>
+                                <td>All regular taxpayers</td>
+                                <td>Monthly/Quarterly</td>
+                                <td>
+                                    Monthly: <span class="date-highlight">11th of next month</span><br>
+                                    Quarterly: <span class="date-highlight">13th of month following quarter</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-3B</td>
+                                <td>All regular taxpayers</td>
+                                <td>Monthly/Quarterly</td>
+                                <td>
+                                    Monthly: <span class="date-highlight">20th of next month</span><br>
+                                    Quarterly: <span class="date-highlight">22nd/24th of month following quarter</span> (based on state)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-4</td>
+                                <td>Composition taxpayers</td>
+                                <td>Annually</td>
+                                <td><span class="date-highlight">30th April</span> of next financial year</td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-5</td>
+                                <td>Non-resident taxpayers</td>
+                                <td>Monthly</td>
+                                <td><span class="date-highlight">20th of next month</span></td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-6</td>
+                                <td>Input Service Distributors</td>
+                                <td>Monthly</td>
+                                <td><span class="date-highlight">13th of next month</span></td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-7</td>
+                                <td>TDS Deductors</td>
+                                <td>Monthly</td>
+                                <td><span class="date-highlight">10th of next month</span></td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-8</td>
+                                <td>E-commerce Operators</td>
+                                <td>Monthly</td>
+                                <td><span class="date-highlight">10th of next month</span></td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-9</td>
+                                <td>Regular taxpayers</td>
+                                <td>Annually</td>
+                                <td><span class="date-highlight">31st December</span> of next financial year</td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-9A</td>
+                                <td>Composition taxpayers</td>
+                                <td>Annually</td>
+                                <td><span class="date-highlight">31st December</span> of next financial year</td>
+                            </tr>
+                            <tr>
+                                <td>GSTR-10</td>
+                                <td>Final Return</td>
+                                <td>Once (at cancellation)</td>
+                                <td>Within <span class="date-highlight">3 months</span> of cancellation/surrender</td>
+                            </tr>
+                            <tr>
+                                <td>CMP-08</td>
+                                <td>Composition taxpayers</td>
+                                <td>Quarterly</td>
+                                <td><span class="date-highlight">18th</span> of month following quarter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <h3>Penalties for Late Filing</h3>
+                <p>Late filing of GST returns attracts penalties:</p>
+                <ul>
+                    <li>A late fee of ₹50 per day (₹25 CGST + ₹25 SGST) for NIL returns</li>
+                    <li>A late fee of ₹100 per day (₹50 CGST + ₹50 SGST) for non-NIL returns</li>
+                    <li>Maximum late fee capped at ₹5,000</li>
+                </ul>
+                <p>Additionally, interest at 18% per annum is applicable on tax liability not paid by the due date.</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>GST Toolkit India © 2025 | All information is for educational purposes only</p>
+            <p>Last updated: April 2025</p>
+            <p>Note: Always consult with a tax professional for personalized advice</p>
+            <p><a href="#" class="btn">Back to Top</a></p>
+        </div>
+    </footer>
+</body>
+</html>
